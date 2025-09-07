@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: autoatendimento
+  datasource:
+    url: jdbc:mysql://localhost:3306/mkt_gus
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:1234}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
