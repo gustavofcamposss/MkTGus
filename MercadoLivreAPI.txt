@@ -1,0 +1,16 @@
+
+ID Aplicativo: 156296852273235
+
+ChaveSecreta: mV6SQtjMM8vRzlpc7iB8Y8OGstXajwab
+
+URL de Redirecionamento: https://github.com/gustavofcamposss
+
+
+
+URL Primeiro Token: https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=156296852273235&redirect_uri=https://github.com/gustavofcamposss
+
+
+
+Primeiro Token: APP_USR-156296852273235-090720-821f76edde534a49cdfe08e6d9ef339c-658444467
+
+"refresh_token": "TG-68be1ecf1528f10001bde6fe-658444467"
