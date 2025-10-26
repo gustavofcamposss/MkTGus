@@ -1,16 +1,20 @@
 
 ID Aplicativo: 156296852273235
-
 ChaveSecreta: mV6SQtjMM8vRzlpc7iB8Y8OGstXajwab
-
 URL de Redirecionamento: https://github.com/gustavofcamposss
 
 
+URL Primeiro Token: 
+https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=15629685227323&redirect_uri=https://github.com/gustavofcamposss
 
-URL Primeiro Token: https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=156296852273235&redirect_uri=https://github.com/gustavofcamposss
 
 
+CONFIGURAÇÃO EDGE:
 
-Primeiro Token: APP_USR-156296852273235-090720-821f76edde534a49cdfe08e6d9ef339c-658444467
+1.Abra o Edge e verifique a versão correta acessando:
+edge://settings/help
 
-"refresh_token": "TG-68be1ecf1528f10001bde6fe-658444467"
+2.Baixe a versão do WebDriver correspondente à versão do seu Edge:
+Microsoft Edge WebDriver
+
+3. Extraia o arquivo baixado para um diretório e informe o caminho do msedgedriver.exe no WebDriver, dentro da classe "EdgeProfileAuth".
