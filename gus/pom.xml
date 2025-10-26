@@ -65,16 +65,23 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+
+		<!-- DEPENDENCIAS DO EDGE -->
+		<!-- Selenium (controla o navegador) -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>4.11.0</version>
 		</dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-websocket</artifactId>
-        </dependency>
-    </dependencies>
+
+		<!-- WebDriverManager (baixa/gerencia automaticamente o msedgedriver) -->
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>5.4.1</version>
+		</dependency>
+
+	</dependencies>
 
 	<build>
 		<plugins>

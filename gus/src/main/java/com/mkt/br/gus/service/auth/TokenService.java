@@ -1,8 +1,9 @@
-package com.mkt.br.gus.service.produto;
+package com.mkt.br.gus.service.auth;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -20,18 +21,20 @@ public class TokenService {
 
     private String refreshToken;
 
+    private Integer expiresIn;
+
     private final String BASE_URL = "https://api.mercadolibre.com";
-
     private final String TOKEN_URL = BASE_URL + "/oauth/token";
-
 
     // Dados para Authenticação
     private final String GRANT_TYPE = "authorization_code";
     private final String CLIENT_ID = System.getenv("ML_CLIENT_ID");
     private final String CLIENT_SECRET = System.getenv("ML_CLIENT_SECRET");
     private final String REDIRECT_URI = System.getenv("ML_REDIRECT_URI");
-    private final String CODE = "TG-68be3634eef4f80001f9146b-658444467"; // FAZER O CÓDIGO MANDAR A URL REDIRECT E PEGAR ESSE CARA
     private final String CODE_VERIFIER = "$CODE_VERIFIER";
+
+    // Token Inicial - Obter com devCenter do ML
+    private final String CODE = "TG-68fe73c44f7f410001dcfc1a-658444467";
 
     // ⚡ RestTemplate para enviar requisições HTTP
     private final RestTemplate restTemplate = new RestTemplate();
@@ -67,10 +70,12 @@ public class TokenService {
             TokenResponse tokenResponse = response.getBody();
             acessToken = tokenResponse.getAccessToken();
             refreshToken = tokenResponse.getRefreshToken();
+            expiresIn = Math.toIntExact(tokenResponse.getExpiresIn());
 
 
-            System.out.println("Access Token: " + acessToken);
-            System.out.println("Refresh Token: " + refreshToken);
+            System.out.println("Token de acesso: " + acessToken);
+            System.out.println("Token de Refresh: " + refreshToken);
+            System.out.println("Expira em: " + expiresIn);
 
         } catch (Exception e) {
             System.err.println("Erro ao obter token: " + e.getMessage());
@@ -80,7 +85,7 @@ public class TokenService {
 
 
 
-    // 🔹 Classe interna para mapear JSON da resposta da API
+    // 🔹Classe interna para mapear JSON da resposta da API
     @Getter
     public static class TokenResponse {
 
