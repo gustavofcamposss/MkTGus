@@ -1,16 +1,22 @@
 package com.mkt.br.gus.service.auth;
 
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.springframework.stereotype.Service;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 
+
+@Getter
+@NoArgsConstructor
 @Service
 public class EdgeProfileAuth {
 
+    // Getter para o codeTG
     // Atributo que vai guardar o code obtido
     private String codeTG;
 
@@ -20,14 +26,14 @@ public class EdgeProfileAuth {
      *
      * @param authUrl URL de autorização
      */
-    public void fetchCode(String authUrl) {
+    public String fetchCode(String authUrl) {
 
         // Defina manualmente o caminho para o EdgeDriver
         System.setProperty("webdriver.edge.driver", "C:\\DriverEdge\\edgedriver_win64\\msedgedriver.exe");
 
         EdgeOptions options = new EdgeOptions();
-        options.addArguments("--user-data-dir=C:\\Users\\gusta\\AppData\\Local\\Microsoft\\Edge\\User Data");
-        options.addArguments("--profile-directory=Default");
+        options.addArguments("--user-data-dir=C:\\Users\\gusta\\AppData\\Local\\Microsoft\\Edge\\User Data"); //Carregue os dados do user na Pasta: User Data
+        options.addArguments("--profile-directory=Default"); // Abra o Pefil Default
 
         WebDriver driver = null;
         try {
@@ -40,8 +46,6 @@ public class EdgeProfileAuth {
             String finalUrl = driver.getCurrentUrl();
             this.codeTG = extractQueryParam(finalUrl, "code");
 
-            System.out.println("Code obtido: " + this.codeTG);
-
         } catch (Exception ex) {
             ex.printStackTrace();
             this.codeTG = null;
@@ -50,10 +54,6 @@ public class EdgeProfileAuth {
                 try { driver.quit(); } catch (Exception ignored) {}
             }
         }
-    }
-
-    // Getter para o codeTG
-    public String getCodeTG() {
         return codeTG;
     }
 

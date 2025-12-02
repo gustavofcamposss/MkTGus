@@ -3,7 +3,7 @@ package com.mkt.br.gus.service.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-import org.springframework.context.annotation.DependsOn;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -14,6 +14,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 
+@Getter
+@NoArgsConstructor
 @Service
 public class TokenService {
 
@@ -22,6 +24,7 @@ public class TokenService {
     private String refreshToken;
 
     private Integer expiresIn;
+
 
     private final String BASE_URL = "https://api.mercadolibre.com";
     private final String TOKEN_URL = BASE_URL + "/oauth/token";
@@ -33,14 +36,11 @@ public class TokenService {
     private final String REDIRECT_URI = System.getenv("ML_REDIRECT_URI");
     private final String CODE_VERIFIER = "$CODE_VERIFIER";
 
-    // Token Inicial - Obter com devCenter do ML
-    private final String CODE = "TG-68fe73c44f7f410001dcfc1a-658444467";
-
     // ⚡ RestTemplate para enviar requisições HTTP
     private final RestTemplate restTemplate = new RestTemplate();
 
 
-    public void obterAcessoToken() {
+    public void getAccessToken(String CODE) { // Token Inicial - Obtido com devCenter do ML
 
         //Monta o Header
         HttpHeaders headers = new HttpHeaders();
