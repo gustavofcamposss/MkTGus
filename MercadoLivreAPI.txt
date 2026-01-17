@@ -18,3 +18,58 @@ edge://settings/help
 Microsoft Edge WebDriver
 
 3. Extraia o arquivo baixado para um diretório e informe o caminho do msedgedriver.exe no WebDriver, dentro da classe "EdgeProfileAuth".
+
+
+
+CONFIGURAÇÃO EDGE CLONAGEM:
+
+OPCIONAL: Caso o usuário utilize o Microsoft Edge como navegador principal, o código de automação pode apresentar falhas ao iniciar o navegador, pois o Edge não permite que dois processos utilizem o mesmo diretório de perfil simultaneamente.
+
+Para evitar esse conflito, é necessário utilizar um perfil clonado, armazenado em um diretório diferente do perfil principal.
+
+
+1 - Ir no diretório do Edge, ir na Subpasta "User Data" copiar tudo que está lá e colcar em outro diretporio fora na pasta princpal do edge para criar seu perfil clonado
+
+2. Fechar o Edge
+Feche todas as janelas do Edge
+Verifique no Gerenciador de Tarefas se não existe nenhum processo msedge.exe em execução
+Finalize caso exista
+
+3- Copiar a pasta do perfil original para um novo diretório.
+
+Origem (padrão): C:\Users\<USUARIO>\AppData\Local\Microsoft\Edge\User Data
+Destino (Exemplo) C:\DriverEdge\CloneEdgeOriginal\UserData_Clone
+
+
+4. Abrir o Edge instalado em sua máquina (Sem ser o webDriver do Edge) usando o perfil clonado
+
+Executar no CMD: "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --user-data-dir=C:\DriverEdge\CloneEdgeOriginal\UserData_Clone
+
+Comando é formado por "msedge.exe, responsável por executar seu Edge instaldo no PC" --user-data-dir=diretório do perfil clonado
+
+
+5. Confirmar o perfil utilizado
+
+No Edge aberto, acessar: edge://version
+
+Verificar o campo Caminho do perfil e confirmar que aponta para o diretório do perfil clonado
+
+
+6. Realizar login no sistema
+
+Acessar o sistema desejado (ex: Dev Center Mercado Livre)
+
+Realizar login normalmente
+
+Fechar todas as janelas do Edge após concluir
+
+
+7. Colocar o Diretório do WebDriver e o PefilClonado na classe EdgeProfileAuth, em service > auth
+
+
+
+Conclusão: Após esse procedimento, é possível utilizar o mesmo usuário Default sem ocorrer erro ao iniciar a aplicação. Não será necessário encerrar o Edge pelo Gerenciador de Tarefas para executar a automação.
+
+O Edge principal pode permanecer aberto normalmente (por exemplo, assistindo YouTube), enquanto um segundo Edge será iniciado pelo WebDriver utilizando um diretório diferente, com o perfil clonado. Por estarem em diretórios distintos, não haverá conflito.
+
+A autenticação será realizada com sucesso utilizando os dados de sessão salvos, e ao final do processo a janela aberta pela automação será encerrada.
