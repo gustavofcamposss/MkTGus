@@ -4,7 +4,8 @@ import com.github.dockerjava.api.exception.NotFoundException;
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
-import com.mkt.br.gus.util.som.Som;
+import com.mkt.br.gus.util.sound.soundBeep;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -65,7 +66,7 @@ public class ScannerCodigoDeBarra {
             if (barcode != null && (currentTime - lastScanTime > SCAN_DELAY_MS)) {
                 System.out.println("Código de barras detectado: " + barcode);
                 lastScanTime = currentTime;
-                Som.beep();
+                soundBeep.beep();
 
                 // Chama o ProductInfoService
                 /*ProductDTO productDto = produtoApiService.getProdutoPorCodigoDeBarras(barcode);
@@ -129,14 +130,12 @@ public class ScannerCodigoDeBarra {
 }
 
 // Classe auxiliar para mensagens de erro
+@Getter
 class ErrorMessage {
-    private String message;
+    private final String message;
 
     public ErrorMessage(String message) {
         this.message = message;
     }
 
-    public String getMessage() {
-        return message;
-    }
 }

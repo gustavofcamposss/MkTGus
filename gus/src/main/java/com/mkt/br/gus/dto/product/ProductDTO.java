@@ -10,11 +10,11 @@ public record ProductDTO(
         String  ean,
 
         @NotBlank(message = "O nome não pode ser Nulo")
-        String nome,
+        String name,
 
-        Double preco,
+        Double price,
 
-        String imagem
+        String image
 
 ) {
 }

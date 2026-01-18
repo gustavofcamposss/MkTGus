@@ -1,4 +1,4 @@
-package com.mkt.br.gus.model.produto;
+package com.mkt.br.gus.model.product;
 
 
 import jakarta.persistence.Column;
@@ -15,18 +15,18 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "produto")
-public class Produto {
+public class Product {
 
     @Id
     @Column(length = 13)
     private String  ean;
 
     @Column(length = 50)
-    private String nome;
+    private String name;
 
     @PositiveOrZero()
-    private Double preco;
+    private Double price;
 
     @Column(length = 80)
-    private String imagem;
+    private String image;
 }

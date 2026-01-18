@@ -1,4 +1,4 @@
-package com.mkt.br.gus.model.cliente;
+package com.mkt.br.gus.model.customer;
 
 
 import jakarta.persistence.Column;
@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.br.CPF;
 @NoArgsConstructor
 @Entity
 @Table(name = "cliente")
-public class Cliente {
+public class Customer {
 
     @Id
     @CPF
@@ -24,8 +24,8 @@ public class Cliente {
     private String cpf;
 
     @Column (length = 50)
-    private String nome;
+    private String name;
 
     @PositiveOrZero()
-    private Integer pontos;
+    private Integer points;
 }

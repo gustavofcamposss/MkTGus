@@ -1,10 +1,10 @@
-package com.mkt.br.gus.util.som;
+package com.mkt.br.gus.util.sound;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Som {
+public class soundBeep {
 
 
     // Método para emitir som
@@ -13,7 +13,7 @@ public class Som {
             Thread.sleep(100);  // Delay de 100ms antes de emitir o som
 
             // Acessando o arquivo de som dentro da pasta resources (somente com caminho relativo)
-            InputStream soundStream = Som.class.getResourceAsStream("/sounds/test.wav");
+            InputStream soundStream = soundBeep.class.getResourceAsStream("/sounds/beep.wav");
 
             if (soundStream == null) {
                 System.err.println("Arquivo de som não encontrado!");
