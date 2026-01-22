@@ -32,7 +32,7 @@ public class EdgeProfileAuth {
         System.setProperty("webdriver.edge.driver", "C:\\DriverEdge\\edgedriver_win64\\msedgedriver.exe");
 
         EdgeOptions options = new EdgeOptions();
-        options.addArguments("--user-data-dir=C:\\DriverEdge\\CloneEdgeOriginal\\UserData_Clone"); //Carregue os dados do user na Pasta: User Data - C:\Users\gusta\AppData\Local\Microsoft\Edge\User Data
+        options.addArguments("--user-data-dir=C:\\DriverEdge\\CloneEdgeOriginal\\UserData_Clone"); //Carregue os dados do user Clonado
         options.addArguments("--profile-directory=Default"); // Abra o Pefil Default
 
         WebDriver driver = null;
@@ -46,8 +46,8 @@ public class EdgeProfileAuth {
             String finalUrl = driver.getCurrentUrl();
             this.codeTG = extractQueryParam(finalUrl, "code");
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
             this.codeTG = null;
         } finally {
             if (driver != null) {

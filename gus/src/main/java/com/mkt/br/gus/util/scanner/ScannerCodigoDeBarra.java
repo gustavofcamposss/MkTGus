@@ -1,13 +1,12 @@
 package com.mkt.br.gus.util.scanner;
 
+
 import com.github.dockerjava.api.exception.NotFoundException;
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
+import com.mkt.br.gus.service.product.MLApiService;
 import com.mkt.br.gus.util.sound.soundBeep;
-import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -18,6 +17,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 
+
 @Component
 @EnableScheduling
 public class ScannerCodigoDeBarra {
@@ -27,13 +27,11 @@ public class ScannerCodigoDeBarra {
     private long lastScanTime = 0;
     private static final long SCAN_DELAY_MS = 5000;
 
-    //@Autowired
-    //private ProdutoApiService produtoApiService;
+    private final MLApiService mlApiService;
 
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate; // Para enviar mensagens WebSocket
 
-    public ScannerCodigoDeBarra() {
+    public ScannerCodigoDeBarra(MLApiService mlApiService) {
+        this.mlApiService = mlApiService;
         try {
             URL url = new URL(DROIDCAM_URL);
             URLConnection connection = url.openConnection();
@@ -42,7 +40,11 @@ public class ScannerCodigoDeBarra {
             videoStream = connection.getInputStream();
             System.out.println("Conectado ao stream de vídeo.");
         } catch (IOException e) {
-            System.err.println("Erro ao conectar ao stream de vídeo: " + e.getMessage());
+            String cameraEnv = System.getenv("DROIDCAM_URL");
+            System.err.println(
+                    "Erro ao conectar ao stream de vídeo: câmera não encontrada ou não inicializada ("
+                            + (cameraEnv != null ? cameraEnv : "não configurada") + ")"
+            );
         }
     }
 
@@ -68,23 +70,7 @@ public class ScannerCodigoDeBarra {
                 lastScanTime = currentTime;
                 soundBeep.beep();
 
-                // Chama o ProductInfoService
-                /*ProductDTO productDto = produtoApiService.getProdutoPorCodigoDeBarras(barcode);
-                if (productDto != null) {
-                    System.out.println("title: " + productDto.nome() +
-                            "Ean: " + productDto.ean() +
-                            ", Nome: " + productDto.nome() +
-                            ", Preço" + productDto.preco() +
-                            ", ImagemURL: " + productDto.imagem());
-
-                    // Enviar o ProdutoDto para o frontend via WebSocket
-                    messagingTemplate.convertAndSend("/topic/scanned-product", productDto);
-                } else {
-                    System.out.println("Produto não encontrado.");
-                    // Enviar mensagem de erro via WebSocket
-                    messagingTemplate.convertAndSend("/topic/scanned-product",
-                            new ErrorMessage("Produto não encontrado para o código de barras: " + barcode));
-                }*/
+                mlApiService.getProductByBarcode(barcode);
             }
         } catch (Exception e) {
             System.err.println("Erro ao processar o frame: " + e.getMessage());
@@ -127,15 +113,4 @@ public class ScannerCodigoDeBarra {
             throw new RuntimeException(e);
         }
     }
-}
-
-// Classe auxiliar para mensagens de erro
-@Getter
-class ErrorMessage {
-    private final String message;
-
-    public ErrorMessage(String message) {
-        this.message = message;
-    }
-
 }
