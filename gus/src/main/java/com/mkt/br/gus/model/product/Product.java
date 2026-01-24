@@ -17,16 +17,28 @@ import lombok.Setter;
 @Table(name = "produto")
 public class Product {
 
+    public Product(String ean, String name, Double price, Boolean isOver18, String image) {
+        this.ean = ean;
+        this.name = name;
+        this.price = price;
+        this.isOver18 = isOver18;
+        this.image = image;
+    }
+
     @Id
     @Column(length = 13)
     private String  ean;
 
-    @Column(length = 50)
+    @Column(length = 120)
     private String name;
 
     @PositiveOrZero()
     private Double price;
 
-    @Column(length = 80)
+    private Boolean isOver18;
+
+    @Column(length = 200)
     private String image;
+
+
 }

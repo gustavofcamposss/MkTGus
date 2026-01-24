@@ -5,8 +5,9 @@ import com.github.dockerjava.api.exception.NotFoundException;
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
-import com.mkt.br.gus.service.product.MLApiService;
+import com.mkt.br.gus.util.scanner.events.BarcodeDetectedEvent;
 import com.mkt.br.gus.util.sound.soundBeep;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -27,11 +28,11 @@ public class ScannerCodigoDeBarra {
     private long lastScanTime = 0;
     private static final long SCAN_DELAY_MS = 5000;
 
-    private final MLApiService mlApiService;
+    private final ApplicationEventPublisher publisher;
 
 
-    public ScannerCodigoDeBarra(MLApiService mlApiService) {
-        this.mlApiService = mlApiService;
+    public ScannerCodigoDeBarra(ApplicationEventPublisher publisher) {
+        this.publisher = publisher;
         try {
             URL url = new URL(DROIDCAM_URL);
             URLConnection connection = url.openConnection();
@@ -70,7 +71,8 @@ public class ScannerCodigoDeBarra {
                 lastScanTime = currentTime;
                 soundBeep.beep();
 
-                mlApiService.getProductByBarcode(barcode);
+                // 🔔 Emite/Publica evento, não decide nada.
+                publisher.publishEvent(new BarcodeDetectedEvent(barcode));
             }
         } catch (Exception e) {
             System.err.println("Erro ao processar o frame: " + e.getMessage());

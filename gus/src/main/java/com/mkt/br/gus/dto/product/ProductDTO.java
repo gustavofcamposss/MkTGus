@@ -14,6 +14,8 @@ public record ProductDTO(
 
         Double price,
 
+        Boolean isOver18,
+
         String image
 
 ) {
